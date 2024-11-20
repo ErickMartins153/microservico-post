@@ -24,7 +24,8 @@ public class Comentario {
     @ManyToOne
     private UUID postId;
     @ManyToOne
-    private UUID donoId;
+    @JoinColumn(name = "id_dono")
+    private Usuario donoId;
     private String conteudo;
     private int curtidas;
     private Instant dataPublicacao;

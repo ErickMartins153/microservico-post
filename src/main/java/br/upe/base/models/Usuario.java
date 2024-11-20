@@ -1,15 +1,8 @@
 package br.upe.base.models;
 
 import java.util.List;
-import jakarta.persistence.Id;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.CascadeType;
+
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Usuario {
     
     @Id
-    @GeneratedValue(generator = "UUID", strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "UUID", strategy = GenerationType.UUID)
     private UUID usuarioId;
     
     @Column(name = "nome")
