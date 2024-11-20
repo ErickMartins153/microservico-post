@@ -16,17 +16,21 @@ public class ComentarioServiceImpl implements ComentarioService{
 
     @Override
     public List<Comentario> listAllComentarios() {
-        return List.of();
+        return comentarioRepository.findAll();
     }
 
     @Override
     public Comentario getComentarioById(UUID id) {
-        return null;
+        if (comentarioRepository.findById(id).isEmpty()){
+            return null;
+        }
+
+        return comentarioRepository.findById(id).get();
     }
 
     @Override
     public Comentario saveComentario(Comentario comentario) {
-        return null;
+        return comentarioRepository.save(comentario);
     }
 
     @Override
