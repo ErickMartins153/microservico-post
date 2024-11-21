@@ -22,13 +22,11 @@ public class Comentario {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_comentario")
-    private Post postId;
+    @Column(name = "id_post", nullable = false)
+    private UUID postId;
 
-    @ManyToOne
-    @JoinColumn(name = "id_dono")
-    private Usuario donoId;
+    @Column(name = "id_dono", nullable = false)
+    private UUID donoId;
 
     @Column(name = "conteudo", nullable = false)
     private String conteudo;
