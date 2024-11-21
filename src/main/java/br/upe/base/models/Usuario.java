@@ -14,30 +14,30 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Getter
 @Setter
 public class Usuario {
-    
+
     @Id
-    @GeneratedValue(generator = "UUID", strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID usuarioId;
-    
+
     @Column(name = "nome")
     private String nome;
-    
+
     @Column(name = "email", unique = true)
     private String email;
-    
+
     @Column(name = "senha")
     private String senha;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "dono", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "donoId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
 
     @JsonIgnore
     @ManyToMany
     @JoinTable(
-        name = "Usuario_Seguidores",
-        joinColumns = @JoinColumn(name = "usuarioId"),
-        inverseJoinColumns = @JoinColumn(name = "seguidorId")
+            name = "Usuario_Seguidores",
+            joinColumns = @JoinColumn(name = "usuarioId"),
+            inverseJoinColumns = @JoinColumn(name = "seguidorId")
     )
     private List<Usuario> seguindo;
 
