@@ -23,11 +23,11 @@ public class Comentario {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "id_comentario")
+    @JoinColumn(name = "post_id", nullable = false)
     private Post postId;
 
     @ManyToOne
-    @JoinColumn(name = "id_dono")
+    @JoinColumn(name = "dono_id", nullable = false)
     private Usuario donoId;
 
     @Column(name = "conteudo", nullable = false)

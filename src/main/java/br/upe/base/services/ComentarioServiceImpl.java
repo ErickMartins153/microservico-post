@@ -2,6 +2,7 @@ package br.upe.base.services;
 
 import br.upe.base.models.Comentario;
 import br.upe.base.repositories.ComentarioRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,9 +10,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class ComentarioServiceImpl implements ComentarioService{
+@AllArgsConstructor
+public class ComentarioServiceImpl implements ComentarioService {
 
-    @Autowired
     private ComentarioRepository comentarioRepository;
 
     @Override
@@ -21,7 +22,7 @@ public class ComentarioServiceImpl implements ComentarioService{
 
     @Override
     public Comentario getComentarioById(UUID id) {
-        if (comentarioRepository.findById(id).isEmpty()){
+        if (comentarioRepository.findById(id).isEmpty()) {
             return null;
         }
 
