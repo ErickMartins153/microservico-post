@@ -36,7 +36,7 @@ public class ComentarioController {
         return ResponseEntity.ok().body(comentario);
     }
 
-    @PutMapping("/{idComentario/curtidas}")
+    @PutMapping("/{idComentario}")
     public ResponseEntity<ComentarioDTO> updateComentario(@RequestParam UUID idComentario,
                                                           @RequestBody ComentarioDTO comentarioDTO){
         ComentarioDTO comentario = comentarioService.updateComentario(idComentario, comentarioDTO);
@@ -49,7 +49,7 @@ public class ComentarioController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @DeleteMapping("/{idComentario}")
+    @DeleteMapping("/{idComentario}/cutidas")
     public ResponseEntity<ComentarioDTO> removeCurtida(@RequestParam UUID idComentario){
         ComentarioDTO comentario = comentarioService.removeCurtida(idComentario);
         return ResponseEntity.ok().body(comentario);

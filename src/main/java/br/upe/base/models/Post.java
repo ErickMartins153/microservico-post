@@ -22,8 +22,14 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @Column(name = "dono_id", nullable = false)
-    private UUID donoId;
+
+    @ManyToOne
+    @JoinColumn(name = "dono_id", nullable = false)
+    private Usuario donoId;
+
+    @OneToMany(mappedBy = "postId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Comentario> comentariosId = new HashSet<>();
+
     @Column(name = "titulo", nullable = false)
     private String titulo;
     @Column(name = "conteudo", nullable = false)

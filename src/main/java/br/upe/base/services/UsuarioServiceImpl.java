@@ -3,6 +3,7 @@ package br.upe.base.services;
 import java.util.Optional;
 import java.util.UUID;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +12,10 @@ import br.upe.base.repositories.UsuarioRepository;
 
 
 @Service
+@AllArgsConstructor
 public class UsuarioServiceImpl implements UsuarioService {
 
-    @Autowired
+
     private UsuarioRepository usuarioRepository;
 
     public Usuario salvarUsuario(Usuario usuario) {
