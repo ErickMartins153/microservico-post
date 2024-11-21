@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Usuario {
     
     @Id
-    @GeneratedValue(generator = "UUID", strategy = GenerationType.UUID)
+    @GeneratedValue( strategy = GenerationType.UUID)
     private UUID usuarioId;
     
     @Column(name = "nome")
