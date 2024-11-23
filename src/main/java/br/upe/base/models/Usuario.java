@@ -36,7 +36,7 @@ public class Usuario {
     @ManyToMany
     @JoinTable(
         name = "Usuario_Seguidores",
-        joinColumns = @JoinColumn(name = "usuarioId"),
+        joinColumns = @JoinColumn(name = "seguidoId"),
         inverseJoinColumns = @JoinColumn(name = "seguidorId")
     )
     private List<Usuario> seguindo;
