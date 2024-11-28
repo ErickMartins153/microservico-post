@@ -19,7 +19,7 @@ public class ComentarioController {
     private ComentarioService comentarioService;
 
     @GetMapping("/{idComentario}")
-    public ResponseEntity<ComentarioDTO> getComentarioById(@RequestParam UUID idComentario) {
+    public ResponseEntity<ComentarioDTO> getComentarioById(@PathVariable UUID idComentario) {
         ComentarioDTO comentario = comentarioService.getComentarioById(idComentario);
         return ResponseEntity.ok().body(comentario);
     }
@@ -37,26 +37,26 @@ public class ComentarioController {
     }
 
     @PutMapping("/{idComentario}")
-    public ResponseEntity<ComentarioDTO> updateComentario(@RequestParam UUID idComentario,
+    public ResponseEntity<ComentarioDTO> updateComentario(@PathVariable UUID idComentario,
                                                           @RequestBody ComentarioDTO comentarioDTO){
         ComentarioDTO comentario = comentarioService.updateComentario(idComentario, comentarioDTO);
         return ResponseEntity.ok().body(comentario);
     }
 
     @PutMapping("/{idComentario}/curtidas")
-    public ResponseEntity<ComentarioDTO> addCurtida(@RequestParam UUID idComentario){
+    public ResponseEntity<ComentarioDTO> addCurtida(@PathVariable UUID idComentario){
         ComentarioDTO comentario = comentarioService.addCurtida(idComentario);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @DeleteMapping("/{idComentario}/cutidas")
-    public ResponseEntity<ComentarioDTO> removeCurtida(@RequestParam UUID idComentario){
+    public ResponseEntity<ComentarioDTO> removeCurtida(@PathVariable UUID idComentario){
         ComentarioDTO comentario = comentarioService.removeCurtida(idComentario);
         return ResponseEntity.ok().body(comentario);
     }
 
     @DeleteMapping("/{idComentario}")
-    public ResponseEntity deleteComentario(@RequestParam UUID idComentario){
+    public ResponseEntity deleteComentario(@PathVariable UUID idComentario){
         comentarioService.deleteComentario(idComentario);
         return ResponseEntity.noContent().build();
     }

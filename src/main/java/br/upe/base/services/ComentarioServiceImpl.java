@@ -23,7 +23,7 @@ public class ComentarioServiceImpl implements ComentarioService{
     @Transactional
     @Override
     public ComentarioDTO getComentarioById(UUID idComentario) {
-        return mapToDTO(findById(idComentario));
+        return ComentarioDTO.from(findById(idComentario));
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ComentarioServiceImpl implements ComentarioService{
         return comentarioRepository
                 .findAll()
                 .stream()
-                .map(this::mapToDTO)
+                .map(ComentarioDTO::from)
                 .collect(Collectors.toList());
     }
 
@@ -46,7 +46,7 @@ public class ComentarioServiceImpl implements ComentarioService{
                 Instant.now());
 
         Comentario postSalvo = comentarioRepository.save(comentario);
-        return mapToDTO(postSalvo);
+        return ComentarioDTO.from(postSalvo);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ComentarioServiceImpl implements ComentarioService{
         Comentario comentarioSalvo = findById(idComentario);
         comentarioSalvo.setConteudo(comentario.conteudo());
         comentarioRepository.save(comentarioSalvo);
-        return mapToDTO(comentarioSalvo);
+        return ComentarioDTO.from(comentarioSalvo);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class ComentarioServiceImpl implements ComentarioService{
         Comentario comentario = findById(idComentario);
         comentario.setCurtidas(comentario.getCurtidas() + 1);
         comentarioRepository.save(comentario);
-        return mapToDTO(comentario);
+        return ComentarioDTO.from(comentario);
     }
 
     @Override
@@ -73,24 +73,13 @@ public class ComentarioServiceImpl implements ComentarioService{
             comentario.setCurtidas(comentario.getCurtidas() - 1);
         }
 
-        return mapToDTO(comentarioRepository.save(comentario));
+        return ComentarioDTO.from(comentarioRepository.save(comentario));
     }
 
     @Override
     public void deleteComentario(UUID idComentario) {
         Comentario comentario = findById(idComentario);
         comentarioRepository.delete(comentario);
-    }
-
-
-    // Métodos auxiliares
-    private ComentarioDTO mapToDTO(Comentario comentario) {
-        return new ComentarioDTO(
-                comentario.getId(),
-                comentario.getConteudo(),
-                comentario.getCurtidas(),
-                comentario.getDataPublicacao()
-        );
     }
 
     private Comentario findById(UUID idComentario){
