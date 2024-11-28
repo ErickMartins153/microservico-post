@@ -1,10 +1,12 @@
 package br.upe.base.models.DTOs;
 
+import br.upe.base.models.Comentario;
 import br.upe.base.models.Post;
 import br.upe.base.models.Usuario;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -15,6 +17,7 @@ public record PostDTO(
         String titulo,
         String conteudo,
         int curtidas,
+        List<Comentario> comentarios,
         Set<String> hashTags,
         Instant dataPublicacao
 ) {
@@ -25,6 +28,7 @@ public record PostDTO(
                 post.getTitulo(),
                 post.getConteudo(),
                 post.getCurtidas(),
+                post.getComentarios(),
                 post.getHashTags(),
                 post.getDataPublicacao()
         );
@@ -37,6 +41,7 @@ public record PostDTO(
                 postDTO.titulo(),
                 postDTO.conteudo(),
                 postDTO.curtidas(),
+                postDTO.comentarios(),
                 postDTO.hashTags(),
                 postDTO.dataPublicacao()
         );

@@ -3,13 +3,18 @@ package br.upe.base.services.comentario;
 import br.upe.base.models.Comentario;
 import br.upe.base.models.DTOs.ComentarioCreationDTO;
 import br.upe.base.models.DTOs.ComentarioDTO;
+import br.upe.base.models.DTOs.PostDTO;
+import br.upe.base.models.Post;
 import br.upe.base.repositories.ComentarioRepository;
+import br.upe.base.repositories.PostRepository;
+import br.upe.base.services.post.PostServiceImpl;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -18,7 +23,7 @@ import java.util.stream.Collectors;
 public class ComentarioServiceImpl implements ComentarioService {
 
     public final ComentarioRepository comentarioRepository;
-
+    public final PostServiceImpl postService;
 
     @Transactional
     @Override
@@ -27,7 +32,11 @@ public class ComentarioServiceImpl implements ComentarioService {
     }
 
     @Override
-    public List<ComentarioDTO> listAllComentarios() {
+    public List<ComentarioDTO> listAllComentarios(UUID idPost) {
+
+        PostDTO postDTO = postService.getPostById(idPost);
+
+
         return comentarioRepository
                 .findAll()
                 .stream()
