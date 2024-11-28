@@ -1,9 +1,11 @@
 package br.upe.base.services;
 
 import br.upe.base.models.Post;
+import br.upe.base.models.Usuario;
 import br.upe.base.models.DTOs.PostCreationDTO;
 import br.upe.base.models.DTOs.PostDTO;
 import br.upe.base.repositories.PostRepository;
+import br.upe.base.repositories.UsuarioRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,20 +20,23 @@ import java.util.stream.Collectors;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final UsuarioRepository usuarioRepository;
 
     @Transactional
     public PostDTO createPost(PostCreationDTO postCreationDTO) {
-        Post post = new Post(
+        Usuario dono = usuarioRepository.findById(postCreationDTO.donoId())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        Post post = PostDTO.from(new PostDTO(
                 null,
-                postCreationDTO.donoId(),
+                dono.getId(),
                 postCreationDTO.titulo(),
                 postCreationDTO.conteudo(),
                 0,
                 postCreationDTO.hashTags(),
                 Instant.now()
-        );
+        ), dono);
         Post savedPost = postRepository.save(post);
-        return mapToDTO(savedPost);
+        return PostDTO.to(savedPost);
     }
 
     @Transactional
@@ -41,17 +46,17 @@ public class PostService {
         post.setConteudo(postDetails.conteudo());
         post.setHashTags(postDetails.hashTags());
         Post updatedPost = postRepository.save(post);
-        return mapToDTO(updatedPost);
+        return PostDTO.to(updatedPost);
     }
 
     public PostDTO getPostById(UUID postId) {
         Post post = getPostEntityById(postId);
-        return mapToDTO(post);
+        return PostDTO.to(post);
     }
 
     public List<PostDTO> getAllPosts() {
         return postRepository.findAll().stream()
-                .map(this::mapToDTO)
+                .map(PostDTO::to)
                 .collect(Collectors.toList());
     }
 
@@ -66,7 +71,7 @@ public class PostService {
         Post post = getPostEntityById(postId);
         hashtags.forEach(post::addHashTag);
         Post updatedPost = postRepository.save(post);
-        return mapToDTO(updatedPost);
+        return PostDTO.to(updatedPost);
     }
 
     @Transactional
@@ -74,7 +79,7 @@ public class PostService {
         Post post = getPostEntityById(postId);
         hashtags.forEach(post::deleteHashTag);
         Post updatedPost = postRepository.save(post);
-        return mapToDTO(updatedPost);
+        return PostDTO.to(updatedPost);
     }
 
     @Transactional
@@ -82,7 +87,7 @@ public class PostService {
         Post post = getPostEntityById(postId);
         post.setCurtidas(post.getCurtidas() + 1);
         Post updatedPost = postRepository.save(post);
-        return mapToDTO(updatedPost);
+        return PostDTO.to(updatedPost);
     }
 
     @Transactional
@@ -92,22 +97,11 @@ public class PostService {
             post.setCurtidas(post.getCurtidas() - 1);
         }
         Post updatedPost = postRepository.save(post);
-        return mapToDTO(updatedPost);
+        return PostDTO.to(updatedPost);
     }
 
     private Post getPostEntityById(UUID postId) {
         return postRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException("Post não encontrado"));
-    }
-
-    private PostDTO mapToDTO(Post post) {
-        return new PostDTO(
-                post.getId(),
-                post.getTitulo(),
-                post.getConteudo(),
-                post.getCurtidas(),
-                post.getHashTags(),
-                post.getDataPublicacao()
-        );
     }
 }

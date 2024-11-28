@@ -3,6 +3,8 @@ package br.upe.base.controllers;
 import java.util.List;
 import java.util.UUID;
 
+import br.upe.base.models.Credentials;
+import br.upe.base.models.DTOs.UsuarioDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,15 +28,14 @@ public class UsuarioController {
     }
 
     @PostMapping("/register")
-    public Usuario register(@RequestBody Usuario usuario) {
+    public UsuarioDTO register(@RequestBody Usuario usuario) {
         return usuarioService.salvarUsuario(usuario);
     }
 
     @PostMapping("/login")
-    public Usuario login(@RequestBody Usuario usuario) {
-        return usuarioService.buscarPorEmail(usuario.getEmail())
-            .filter(u -> u.getSenha().equals(usuario.getSenha()))
-            .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    public UsuarioDTO login(@RequestBody Credentials usuario) {
+        return usuarioService.logar(usuario.getEmail(), usuario.getSenha());
+
     }
 
     @PostMapping("/follow/{seguidorId}/{seguidoId}")
@@ -59,16 +60,28 @@ public class UsuarioController {
     }
 
     @GetMapping("/followers/{usuarioId}")
-    public ResponseEntity<List<Usuario>> followers(@PathVariable UUID usuarioId) {
-        List<Usuario> lista = usuarioService.listarSeguidores(usuarioId);
+    public ResponseEntity<List<UsuarioDTO>> followers(@PathVariable UUID usuarioId) {
+        List<UsuarioDTO> lista = usuarioService.listarSeguidores(usuarioId);
         return ResponseEntity.ok(lista);
     }
 
     @GetMapping("/following/{usuarioId}")
-    public ResponseEntity<List<Usuario>> following(@PathVariable UUID usuarioId) {
-        List<Usuario> lista = usuarioService.listarSeguidos(usuarioId);
+    public ResponseEntity<List<UsuarioDTO>> following(@PathVariable UUID usuarioId) {
+        List<UsuarioDTO> lista = usuarioService.listarSeguidos(usuarioId);
         return ResponseEntity.ok(lista);
     }
 
-    
+    @GetMapping
+    public ResponseEntity<List<UsuarioDTO>> getAll() {
+        List<UsuarioDTO> lista = usuarioService.listarTodos();
+        return ResponseEntity.ok(lista);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UsuarioDTO> getUsuarioById(@PathVariable UUID id) {
+       UsuarioDTO usuarioDTO = usuarioService.buscarPorId(id);
+        return ResponseEntity.ok(usuarioDTO);
+    }
+
+
 }

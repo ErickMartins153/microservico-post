@@ -4,20 +4,32 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import br.upe.base.models.DTOs.UsuarioDTO;
 import org.springframework.stereotype.Service;
 
 import br.upe.base.models.Usuario;
 
-@Service 
+@Service
 public interface UsuarioService {
-    public Usuario salvarUsuario(Usuario usuario);
-    public Optional<Usuario> buscarPorEmail(String email);
-    public boolean emailExiste(String email);
-    public Optional<Usuario> buscarPorId(UUID id);
-    public void deletarUsuario(UUID id);
-    public void follow(UUID id, UUID idSeguido);
-    public void unfollow(UUID id, UUID idSeguido);
-    public List<Usuario> listarSeguidores(UUID id);
-    public List<Usuario> listarSeguidos(UUID id);
+
+    UsuarioDTO salvarUsuario(Usuario usuario);
+
+    Optional<UsuarioDTO> buscarPorEmail(String email);
+
+    UsuarioDTO logar(String email, String senha);
+
+    UsuarioDTO buscarPorId(UUID id);
+
+    void deletarUsuario(UUID id);
+
+    void follow(UUID id, UUID idSeguido);
+
+    void unfollow(UUID id, UUID idSeguido);
+
+    List<UsuarioDTO> listarSeguidores(UUID id);
+
+    List<UsuarioDTO> listarSeguidos(UUID id);
+
+    List<UsuarioDTO> listarTodos();
 
 }
