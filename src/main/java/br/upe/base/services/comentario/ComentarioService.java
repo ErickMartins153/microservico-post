@@ -1,4 +1,4 @@
-package br.upe.base.services;
+package br.upe.base.services.comentario;
 
 import br.upe.base.models.DTOs.ComentarioCreationDTO;
 import br.upe.base.models.DTOs.ComentarioDTO;

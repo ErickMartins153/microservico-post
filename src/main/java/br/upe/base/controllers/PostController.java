@@ -2,7 +2,7 @@ package br.upe.base.controllers;
 
 import br.upe.base.models.DTOs.PostCreationDTO;
 import br.upe.base.models.DTOs.PostDTO;
-import br.upe.base.services.PostServiceImpl;
+import br.upe.base.services.post.PostServiceImpl;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

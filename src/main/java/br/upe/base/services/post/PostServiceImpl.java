@@ -1,10 +1,11 @@
-package br.upe.base.services;
+package br.upe.base.services.post;
 
 import br.upe.base.models.Post;
 import br.upe.base.models.DTOs.PostCreationDTO;
 import br.upe.base.models.DTOs.PostDTO;
 import br.upe.base.models.Usuario;
 import br.upe.base.repositories.PostRepository;
+import br.upe.base.services.usuario.UsuarioService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

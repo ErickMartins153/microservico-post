@@ -1,4 +1,4 @@
-package br.upe.base.services;
+package br.upe.base.services.comentario;
 
 import br.upe.base.models.Comentario;
 import br.upe.base.models.DTOs.ComentarioCreationDTO;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class ComentarioServiceImpl implements ComentarioService{
+public class ComentarioServiceImpl implements ComentarioService {
 
     public final ComentarioRepository comentarioRepository;
 

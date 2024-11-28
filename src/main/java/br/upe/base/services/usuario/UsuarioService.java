@@ -1,4 +1,4 @@
-package br.upe.base.services;
+package br.upe.base.services.usuario;
 
 import br.upe.base.models.Usuario;
 import org.springframework.stereotype.Service;

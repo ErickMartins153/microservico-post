@@ -1,8 +1,7 @@
-package br.upe.base.services;
+package br.upe.base.services.post;
 
 import br.upe.base.models.DTOs.PostCreationDTO;
 import br.upe.base.models.DTOs.PostDTO;
-import br.upe.base.models.Post;
 
 import java.util.List;
 import java.util.UUID;

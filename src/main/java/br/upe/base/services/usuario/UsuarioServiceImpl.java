@@ -1,10 +1,9 @@
-package br.upe.base.services;
+package br.upe.base.services.usuario;
 
 import java.util.Optional;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.upe.base.models.Usuario;

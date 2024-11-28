@@ -2,7 +2,7 @@ package br.upe.base.controllers;
 
 import br.upe.base.models.DTOs.ComentarioCreationDTO;
 import br.upe.base.models.DTOs.ComentarioDTO;
-import br.upe.base.services.ComentarioService;
+import br.upe.base.services.comentario.ComentarioService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
