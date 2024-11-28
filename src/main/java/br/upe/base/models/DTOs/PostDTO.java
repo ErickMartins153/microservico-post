@@ -1,6 +1,7 @@
 package br.upe.base.models.DTOs;
 
 import br.upe.base.models.Post;
+import br.upe.base.models.Usuario;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.Instant;
@@ -10,40 +11,34 @@ import java.util.UUID;
 public record PostDTO(
         @NotNull(message = "O id do post é obrigatório")
         UUID id,
+        UUID donoId,
         String titulo,
         String conteudo,
         int curtidas,
         Set<String> hashTags,
         Instant dataPublicacao
 ) {
-        public void addHashTag(String hashTag) {
-                hashTags.add(hashTag);
-        }
+    public static PostDTO to(Post post) {
+        return new PostDTO(
+                post.getId(),
+                post.getDono() != null ? post.getDono().getId() : null,
+                post.getTitulo(),
+                post.getConteudo(),
+                post.getCurtidas(),
+                post.getHashTags(),
+                post.getDataPublicacao()
+        );
+    }
 
-        public void deleteHashTag(String hashTag) {
-                hashTags.remove(hashTag);
-        }
-
-        public static PostDTO from(Post post) {
-                return new PostDTO(
-                        post.getId(),
-                        post.getTitulo(),
-                        post.getConteudo(),
-                        post.getCurtidas(),
-                        post.getHashTags(),
-                        post.getDataPublicacao()
-                );
-        }
-
-        // Método estático para converter de PostDTO para Post
-        public static Post to(PostDTO postDTO) {
-                Post post = new Post();
-                post.setId(postDTO.id());
-                post.setTitulo(postDTO.titulo());
-                post.setConteudo(postDTO.conteudo());
-                post.setCurtidas(postDTO.curtidas());
-                post.setHashTags(postDTO.hashTags());
-                post.setDataPublicacao(postDTO.dataPublicacao());
-                return post;
-        }
+    public static Post from(PostDTO postDTO, Usuario dono) {
+        return new Post(
+                postDTO.id(),
+                dono,
+                postDTO.titulo(),
+                postDTO.conteudo(),
+                postDTO.curtidas(),
+                postDTO.hashTags(),
+                postDTO.dataPublicacao()
+        );
+    }
 }

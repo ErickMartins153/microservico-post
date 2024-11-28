@@ -17,7 +17,7 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID usuarioId;
+    private UUID id;
 
     @Column(name = "nome")
     private String nome;
@@ -29,14 +29,14 @@ public class Usuario {
     private String senha;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "donoId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "dono", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<Post> posts;
 
     @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "Usuario_Seguidores",
-            joinColumns = @JoinColumn(name = "usuarioId"),
+            joinColumns = @JoinColumn(name = "seguidoId"),
             inverseJoinColumns = @JoinColumn(name = "seguidorId")
     )
     private List<Usuario> seguindo;

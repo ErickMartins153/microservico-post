@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -24,22 +23,21 @@ public class Post {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "dono_id", nullable = false)
-    private Usuario donoId;
-
-    @OneToMany(mappedBy = "postId", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Comentario> comentariosId = new HashSet<>();
+    @JoinColumn(name = "dono_id")
+    private Usuario dono;
 
     @Column(name = "titulo", nullable = false)
     private String titulo;
+
     @Column(name = "conteudo", nullable = false)
     private String conteudo;
+
     @Column(name = "curtidas", nullable = false)
     private int curtidas;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "post_hashtags", joinColumns = @JoinColumn(name = "post_id"))
-    @Column(name = "hashtag")
+    @Column(name = "hashtag", nullable = false)
     private Set<String> hashTags = new HashSet<>();
 
     @Column(name = "data_publicacao", nullable = false)

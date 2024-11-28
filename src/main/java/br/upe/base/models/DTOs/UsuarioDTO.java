@@ -1,32 +1,26 @@
 package br.upe.base.models.DTOs;
 
-import java.util.UUID;
-
 import br.upe.base.models.Usuario;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
 
-@Getter
-@Setter
-public class UsuarioDTO {
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
-    private UUID usuarioId;
-    private String nome;
-    private String email;
-
-    
-    public UsuarioDTO(UUID usuarioId, String nome, String email) {
-        this.usuarioId = usuarioId;
-        this.nome = nome;
-        this.email = email;
-    }
-
-
-    public Usuario toUsuario() {
-        Usuario usuario = new Usuario();
-        usuario.setUsuarioId(usuarioId);
-        usuario.setNome(nome);
-        usuario.setEmail(email);
-        return usuario;
+public record UsuarioDTO(
+        UUID id,
+        String nome,
+        String email,
+        List<UUID> seguidores,
+        List<UUID> seguindo
+) {
+    public static UsuarioDTO to(Usuario usuario) {
+        return new UsuarioDTO(
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getEmail(),
+                usuario.getSeguidores().stream().map(u -> u.getId()).collect(Collectors.toList()),
+                usuario.getSeguidores().stream().map(u -> u.getId()).collect(Collectors.toList())
+        );
     }
 }
