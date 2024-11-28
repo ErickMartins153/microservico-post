@@ -1,7 +1,9 @@
 package br.upe.base.controllers;
 
+import br.upe.base.models.DTOs.ComentarioDTO;
 import br.upe.base.models.DTOs.PostCreationDTO;
 import br.upe.base.models.DTOs.PostDTO;
+import br.upe.base.services.comentario.ComentarioServiceImpl;
 import br.upe.base.services.post.PostServiceImpl;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -19,6 +21,7 @@ import java.util.UUID;
 public class PostController {
     private KafkaTemplate kafkaTemplate;
     private PostServiceImpl postService;
+    private ComentarioServiceImpl comentarioService;
 
     @PostMapping
     public ResponseEntity<PostDTO> createPost(@Valid @RequestBody PostCreationDTO post) {
@@ -42,6 +45,12 @@ public class PostController {
     public ResponseEntity<List<PostDTO>> getAllPosts() {
         List<PostDTO> posts = postService.getAllPosts();
         return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
+    @GetMapping("/{idPost}/comentarios")
+    public ResponseEntity<List<ComentarioDTO>> getAllComentariosFromPost(@PathVariable UUID idPost) {
+        List<ComentarioDTO> comentarios = comentarioService.listAllComentarios(idPost);
+        return ResponseEntity.ok().body(comentarios);
     }
 
     @DeleteMapping("/{postId}")

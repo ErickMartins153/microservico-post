@@ -34,11 +34,9 @@ public class ComentarioServiceImpl implements ComentarioService {
     @Override
     public List<ComentarioDTO> listAllComentarios(UUID idPost) {
 
-        PostDTO postDTO = postService.getPostById(idPost);
-
-
-        return comentarioRepository
-                .findAll()
+        return postService
+                .getPostById(idPost)
+                .comentarios()
                 .stream()
                 .map(ComentarioDTO::from)
                 .collect(Collectors.toList());

@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface ComentarioService {
     ComentarioDTO getComentarioById(UUID idComentario);
-    List<ComentarioDTO> listAllComentarios();
+    List<ComentarioDTO> listAllComentarios(UUID idPost);
     ComentarioDTO saveComentario(ComentarioCreationDTO comentario);
     ComentarioDTO updateComentario(UUID idComentario, ComentarioDTO comentario);
     ComentarioDTO addCurtida(UUID idComentario);
