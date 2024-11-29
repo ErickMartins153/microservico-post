@@ -1,15 +1,8 @@
 package br.upe.base.models;
 
 import java.util.List;
-import jakarta.persistence.Id;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.CascadeType;
+
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,30 +14,30 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Getter
 @Setter
 public class Usuario {
-    
+
     @Id
-    @GeneratedValue(generator = "UUID", strategy = GenerationType.AUTO)
-    private UUID usuarioId;
-    
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
     @Column(name = "nome")
     private String nome;
-    
+
     @Column(name = "email", unique = true)
     private String email;
-    
+
     @Column(name = "senha")
     private String senha;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "dono", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "dono", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<Post> posts;
 
     @JsonIgnore
     @ManyToMany
     @JoinTable(
-        name = "Usuario_Seguidores",
-        joinColumns = @JoinColumn(name = "usuarioId"),
-        inverseJoinColumns = @JoinColumn(name = "seguidorId")
+            name = "Usuario_Seguidores",
+            joinColumns = @JoinColumn(name = "seguidoId"),
+            inverseJoinColumns = @JoinColumn(name = "seguidorId")
     )
     private List<Usuario> seguindo;
 

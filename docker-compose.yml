@@ -18,3 +18,12 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes
     ports:
       - '9092:9092'
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_DB: base_db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
