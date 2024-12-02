@@ -3,6 +3,7 @@ package br.upe.base.services;
 import br.upe.base.models.DTOs.UsuarioDTO;
 import br.upe.base.models.Usuario;
 import br.upe.base.repositories.UsuarioRepository;
+import br.upe.base.services.usuario.UsuarioService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

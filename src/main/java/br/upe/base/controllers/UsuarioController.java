@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.upe.base.models.Usuario;
-import br.upe.base.services.UsuarioService;
+import br.upe.base.services.usuario.UsuarioService;
 
 @RestController
 @RequestMapping("/api/usuarios")
