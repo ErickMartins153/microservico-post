@@ -2,7 +2,7 @@ package br.upe.base.controllers;
 
 import br.upe.base.models.DTOs.PostCreationDTO;
 import br.upe.base.models.DTOs.PostDTO;
-import br.upe.base.services.post.PostServiceImpl;
+import br.upe.base.services.post.PostService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class PostController {
     private KafkaTemplate kafkaTemplate;
-    private PostServiceImpl postService;
+    private PostService postService;
 
     @PostMapping
     public ResponseEntity<PostDTO> createPost(@Valid @RequestBody PostCreationDTO post) {
