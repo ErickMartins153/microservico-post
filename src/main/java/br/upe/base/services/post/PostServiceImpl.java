@@ -6,6 +6,7 @@ import br.upe.base.models.DTOs.PostCreationDTO;
 import br.upe.base.models.DTOs.PostDTO;
 import br.upe.base.repositories.PostRepository;
 import br.upe.base.repositories.UsuarioRepository;
+import br.upe.base.services.post.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class PostService {
+public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
     private final UsuarioRepository usuarioRepository;
