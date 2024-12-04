@@ -1,5 +1,8 @@
 package br.upe.base.services.usuario;
 
+import br.upe.base.exceptions.usuarioExceptions.EmailNaoCadastradoException;
+import br.upe.base.exceptions.usuarioExceptions.SenhaIncorretaException;
+import br.upe.base.exceptions.usuarioExceptions.UsuarioNaoEncontradoException;
 import br.upe.base.models.DTOs.UsuarioCreationDTO;
 import br.upe.base.models.DTOs.UsuarioDTO;
 import br.upe.base.models.Usuario;
@@ -42,8 +45,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     public UsuarioDTO logar(String email, String senha) {
-        Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Email não cadastrado"));
-        if (!senha.equals(usuario.getSenha())) throw new RuntimeException("Senha incorreta");
+        Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow(() -> new EmailNaoCadastradoException(email));
+        if (!senha.equals(usuario.getSenha())) throw new SenhaIncorretaException();
         return UsuarioDTO.to(usuario);
     }
 
@@ -60,9 +63,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public void follow(UUID id, UUID idSeguido) {
         Usuario seguidor = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new UsuarioNaoEncontradoException(id));
         Usuario seguido = usuarioRepository.findById(idSeguido)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new UsuarioNaoEncontradoException(idSeguido));
 
         if (!seguidor.getSeguindo().contains(seguido)) {
             seguidor.getSeguindo().add(seguido);
@@ -75,9 +78,9 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public void unfollow(UUID id, UUID idSeguido) {
         Usuario seguidor = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new UsuarioNaoEncontradoException(id));
         Usuario seguido = usuarioRepository.findById(idSeguido)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new UsuarioNaoEncontradoException(idSeguido));
 
         seguidor.getSeguindo().remove(seguido);
         seguido.getSeguidores().remove(seguidor);
@@ -88,7 +91,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public List<UsuarioDTO> listarSeguidores(UUID id) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new UsuarioNaoEncontradoException(id));
 
         return usuario.getSeguidores().stream()
                 .map(UsuarioDTO::to)
@@ -98,7 +101,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public List<UsuarioDTO> listarSeguidos(UUID id) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(() -> new UsuarioNaoEncontradoException(id));
 
         return usuario.getSeguindo().stream()
                 .map(UsuarioDTO::to)

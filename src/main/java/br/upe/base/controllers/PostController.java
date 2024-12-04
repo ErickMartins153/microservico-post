@@ -98,7 +98,7 @@ public class PostController {
         return ResponseEntity.ok("Post enviado para Kafka com sucesso");
     }
 
-    @GetMapping("/{seguidorId}")
+    @GetMapping("/seguidor/{seguidorId}")
     public ResponseEntity<List<PostDTO>> getPosts(@PathVariable UUID seguidorId) {
         List<PostDTO> posts = postConsumer.getPostsBySeguidorId(seguidorId);
 

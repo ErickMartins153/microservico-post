@@ -1,5 +1,6 @@
 package br.upe.base.services.post;
 
+import br.upe.base.exceptions.postExceptions.PostNotFoundException;
 import br.upe.base.models.Post;
 import br.upe.base.models.Usuario;
 import br.upe.base.models.DTOs.PostCreationDTO;
@@ -104,6 +105,6 @@ public class PostServiceImpl implements PostService {
 
     private Post getPostEntityById(UUID postId) {
         return postRepository.findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post não encontrado"));
+                .orElseThrow(() -> new PostNotFoundException(postId));
     }
 }
