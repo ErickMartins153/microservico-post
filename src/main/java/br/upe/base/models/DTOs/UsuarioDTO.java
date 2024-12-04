@@ -12,16 +12,16 @@ public record UsuarioDTO(
         UUID id,
         String nome,
         String email,
-        List<UUID> seguidores,
-        List<UUID> seguindo
+        List<Usuario> seguidores,
+        List<Usuario> seguindo
 ) {
     public static UsuarioDTO to(Usuario usuario) {
         return new UsuarioDTO(
                 usuario.getId(),
                 usuario.getNome(),
                 usuario.getEmail(),
-                usuario.getSeguidores().stream().map(u -> u.getId()).collect(Collectors.toList()),
-                usuario.getSeguidores().stream().map(u -> u.getId()).collect(Collectors.toList())
+                usuario.getSeguidores(),
+                usuario.getSeguidores()
         );
     }
 
