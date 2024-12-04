@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import br.upe.base.models.DTOs.UsuarioCreationDTO;
 import br.upe.base.models.DTOs.UsuarioDTO;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import br.upe.base.models.Usuario;
 @Service
 public interface UsuarioService {
 
-    UsuarioDTO salvarUsuario(Usuario usuario);
+    UsuarioDTO salvarUsuario(UsuarioCreationDTO dto);
 
     Optional<UsuarioDTO> buscarPorEmail(String email);
 

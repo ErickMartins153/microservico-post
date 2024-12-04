@@ -1,5 +1,6 @@
 package br.upe.base.services.usuario;
 
+import br.upe.base.models.DTOs.UsuarioCreationDTO;
 import br.upe.base.models.DTOs.UsuarioDTO;
 import br.upe.base.models.Usuario;
 import br.upe.base.repositories.UsuarioRepository;
@@ -18,8 +19,20 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
 
-    public UsuarioDTO salvarUsuario(Usuario usuario) {
-        Usuario savedUsuario = usuarioRepository.save(usuario);
+    public UsuarioDTO salvarUsuario(UsuarioCreationDTO dto) {
+
+        Usuario novoUsuario = new Usuario(
+                null,
+                dto.nome(),
+                dto.email(),
+                dto.senha(),
+                null,
+                null,
+                null,
+                null
+        );
+
+        Usuario savedUsuario = usuarioRepository.save(novoUsuario);
         return UsuarioDTO.to(savedUsuario);
     }
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import br.upe.base.models.Credentials;
+import br.upe.base.models.DTOs.UsuarioCreationDTO;
 import br.upe.base.models.DTOs.UsuarioDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,14 +29,14 @@ public class UsuarioController {
     }
 
     @PostMapping("/register")
-    public UsuarioDTO register(@RequestBody Usuario usuario) {
-        return usuarioService.salvarUsuario(usuario);
+    public ResponseEntity<UsuarioDTO> register(@RequestBody UsuarioCreationDTO dto) {
+        UsuarioDTO usuario = usuarioService.salvarUsuario(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
     }
 
     @PostMapping("/login")
     public UsuarioDTO login(@RequestBody Credentials usuario) {
         return usuarioService.logar(usuario.getEmail(), usuario.getSenha());
-
     }
 
     @PostMapping("/follow/{seguidorId}/{seguidoId}")
