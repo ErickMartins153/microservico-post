@@ -3,7 +3,9 @@ package br.upe.base.controllers;
 import br.upe.base.models.DTOs.ComentarioDTO;
 import br.upe.base.models.DTOs.PostCreationDTO;
 import br.upe.base.models.DTOs.PostDTO;
+import br.upe.base.services.comentario.ComentarioService;
 import br.upe.base.services.comentario.ComentarioServiceImpl;
+import br.upe.base.services.post.PostService;
 import br.upe.base.services.post.PostServiceImpl;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -20,8 +22,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class PostController {
     private KafkaTemplate kafkaTemplate;
-    private PostServiceImpl postService;
-    private ComentarioServiceImpl comentarioService;
+    private PostService postService;
+    private ComentarioService comentarioService;
 
     @PostMapping
     public ResponseEntity<PostDTO> createPost(@Valid @RequestBody PostCreationDTO post) {
