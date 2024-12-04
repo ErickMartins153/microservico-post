@@ -1,13 +1,16 @@
 package br.upe.base.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -23,7 +26,7 @@ public class Post {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "dono_id")
+    @JoinColumn(name = "id_dono")
     private Usuario dono;
 
     @Column(name = "titulo", nullable = false)
@@ -34,6 +37,10 @@ public class Post {
 
     @Column(name = "curtidas", nullable = false)
     private int curtidas;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "postId", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<Comentario> comentarios;
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "post_hashtags", joinColumns = @JoinColumn(name = "post_id"))

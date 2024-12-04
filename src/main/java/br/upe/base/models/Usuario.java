@@ -33,6 +33,10 @@ public class Usuario {
     private List<Post> posts;
 
     @JsonIgnore
+    @OneToMany(mappedBy = "dono", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<Comentario> comentarios;
+
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "Usuario_Seguidores",

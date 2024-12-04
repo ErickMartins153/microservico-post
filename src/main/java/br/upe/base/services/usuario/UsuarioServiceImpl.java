@@ -1,4 +1,4 @@
-package br.upe.base.services;
+package br.upe.base.services.usuario;
 
 import br.upe.base.models.DTOs.UsuarioDTO;
 import br.upe.base.models.Usuario;

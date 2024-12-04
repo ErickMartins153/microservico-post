@@ -24,11 +24,6 @@ public class ComentarioController {
         return ResponseEntity.ok().body(comentario);
     }
 
-    @GetMapping
-    public ResponseEntity<List<ComentarioDTO>> getAllComentarios(){
-        List<ComentarioDTO> comentarios = comentarioService.listAllComentarios();
-        return ResponseEntity.ok().body(comentarios);
-    }
 
     @PostMapping
     public ResponseEntity<ComentarioDTO> createComentario(@RequestBody ComentarioCreationDTO comentarioDTO){
