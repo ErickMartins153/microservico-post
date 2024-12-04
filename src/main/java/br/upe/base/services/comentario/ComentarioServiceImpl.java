@@ -4,17 +4,17 @@ import br.upe.base.models.Comentario;
 import br.upe.base.models.DTOs.ComentarioCreationDTO;
 import br.upe.base.models.DTOs.ComentarioDTO;
 import br.upe.base.models.DTOs.PostDTO;
-import br.upe.base.models.Post;
+import br.upe.base.models.DTOs.UsuarioDTO;
+import br.upe.base.models.Usuario;
 import br.upe.base.repositories.ComentarioRepository;
-import br.upe.base.repositories.PostRepository;
 import br.upe.base.services.post.PostServiceImpl;
+import br.upe.base.services.usuario.UsuarioServiceImpl;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -24,6 +24,7 @@ public class ComentarioServiceImpl implements ComentarioService {
 
     public final ComentarioRepository comentarioRepository;
     public final PostServiceImpl postService;
+    public final UsuarioServiceImpl usuarioService;
 
     @Transactional
     @Override
@@ -44,10 +45,15 @@ public class ComentarioServiceImpl implements ComentarioService {
 
     @Override
     public ComentarioDTO saveComentario(ComentarioCreationDTO comentarioCreationDTO) {
+        PostDTO postDTO = postService.getPostById(comentarioCreationDTO.idPost());
+        UsuarioDTO usuarioDTO = usuarioService.buscarPorId(comentarioCreationDTO.idDono());
+
+        Usuario usuario = UsuarioDTO.from(usuarioDTO);
+
         Comentario comentario = new Comentario(
                 null,
-                comentarioCreationDTO.idPost(),
-                comentarioCreationDTO.idDono(),
+                PostDTO.from(postDTO,usuario),
+                usuario,
                 comentarioCreationDTO.conteudo(),
                 0,
                 Instant.now());

@@ -26,7 +26,7 @@ public class Post {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "dono_id")
+    @JoinColumn(name = "id_dono")
     private Usuario dono;
 
     @Column(name = "titulo", nullable = false)
@@ -38,9 +38,8 @@ public class Post {
     @Column(name = "curtidas", nullable = false)
     private int curtidas;
 
-    @Column(name = "comentarios")
     @JsonIgnore
-    @OneToMany(mappedBy = "dono", cascade = CascadeType.ALL, orphanRemoval = false)
+    @OneToMany(mappedBy = "postId", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<Comentario> comentarios;
 
     @ElementCollection(fetch = FetchType.LAZY)

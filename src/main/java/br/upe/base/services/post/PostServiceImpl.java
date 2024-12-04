@@ -33,6 +33,7 @@ public class PostServiceImpl implements PostService {
                 postCreationDTO.titulo(),
                 postCreationDTO.conteudo(),
                 0,
+                null,
                 postCreationDTO.hashTags(),
                 Instant.now()
         ), dono);
