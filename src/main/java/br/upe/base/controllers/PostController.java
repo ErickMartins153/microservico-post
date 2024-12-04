@@ -99,8 +99,8 @@ public class PostController {
     }
 
     @GetMapping("/seguidor/{seguidorId}")
-    public ResponseEntity<List<PostDTO>> getPosts(@PathVariable UUID seguidorId) {
-        List<PostDTO> posts = postConsumer.getPostsBySeguidorId(seguidorId);
+    public ResponseEntity<List<String>> getPosts(@PathVariable UUID seguidorId) {
+        List<String> posts = postConsumer.getPostsBySeguidorId(seguidorId);
 
         if (posts.isEmpty()) {
             return ResponseEntity.noContent().build();

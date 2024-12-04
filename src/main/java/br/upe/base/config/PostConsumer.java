@@ -18,18 +18,17 @@ import java.util.concurrent.ConcurrentHashMap;
 @AllArgsConstructor
 public class PostConsumer {
 
-    private final Map<UUID, List<PostDTO>> postCache = new ConcurrentHashMap<>();
+    private final Map<UUID, List<String>> postCache = new ConcurrentHashMap<>();
 
-   @KafkaListener(topics = "post", groupId = "post-group")
-    public void consumePost(ConsumerRecord<String, PostDTO> record) {
+    @KafkaListener(topics = "post", groupId = "post-group")
+    public void consumePost(ConsumerRecord<String, String> record) {
         UUID seguidorId = UUID.fromString(record.key());
-        PostDTO post = record.value();
+        String post = record.value();
 
         postCache.computeIfAbsent(seguidorId, k -> new ArrayList<>()).add(post);
-        System.out.printf("Post [%s] armazenado para seguidor [%s]%n", post.titulo(), seguidorId);
+//        System.out.printf("Post [%s] armazenado para seguidor [%s]%n", post, seguidorId);
     }
-
-    public List<PostDTO> getPostsBySeguidorId(UUID seguidorId) {
+    public List<String> getPostsBySeguidorId(UUID seguidorId) {
         return postCache.getOrDefault(seguidorId, Collections.emptyList());
     }
 
