@@ -21,7 +21,7 @@ public record UsuarioDTO(
                 usuario.getNome(),
                 usuario.getEmail(),
                 usuario.getSeguidores(),
-                usuario.getSeguidores()
+                usuario.getSeguindo()
         );
     }
 

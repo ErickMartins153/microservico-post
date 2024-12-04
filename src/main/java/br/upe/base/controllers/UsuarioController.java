@@ -40,21 +40,26 @@ public class UsuarioController {
     }
 
     @PostMapping("/follow/{seguidorId}/{seguidoId}")
-    public ResponseEntity<String> seguir(@PathVariable UUID seguidorId, @PathVariable UUID seguidoId) {
+    public ResponseEntity<?> seguir(@PathVariable UUID seguidorId, @PathVariable UUID seguidoId) {
         try {
             usuarioService.follow(seguidorId, seguidoId);
-            return ResponseEntity.ok("Usuário seguido com sucesso");
+            UsuarioDTO usuario = usuarioService.buscarPorId(seguidorId);
+            for (UsuarioDTO u : usuarioService.listarSeguidores(seguidoId)) {
+                System.out.println(u.nome());
+            }
+            return ResponseEntity.ok().body(usuario);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao seguir usuário: " + e.getMessage());
-        }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);}
     }
 
 
     @PostMapping("/unfollow/{seguidorId}/{seguidoId}")
-    public ResponseEntity<String> deixarDeSeguir(@PathVariable UUID seguidorId, @PathVariable UUID seguidoId) {
+    public ResponseEntity<?> deixarDeSeguir(@PathVariable UUID seguidorId, @PathVariable UUID seguidoId) {
         try {
             usuarioService.unfollow(seguidorId, seguidoId);
-            return ResponseEntity.ok("Deixou de seguir o usuário");
+            UsuarioDTO usuario = usuarioService.buscarPorId(seguidorId);
+            
+            return ResponseEntity.ok().body(usuario);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao deixar de seguir usuário: " + e.getMessage());
         }
