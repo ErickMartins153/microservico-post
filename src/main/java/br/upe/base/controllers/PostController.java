@@ -1,10 +1,13 @@
 package br.upe.base.controllers;
 
+import br.upe.base.config.PostConsumer;
 import br.upe.base.models.DTOs.ComentarioDTO;
 import br.upe.base.models.DTOs.PostCreationDTO;
 import br.upe.base.models.DTOs.PostDTO;
+import br.upe.base.models.DTOs.UsuarioDTO;
 import br.upe.base.services.comentario.ComentarioService;
 import br.upe.base.services.post.PostService;
+import br.upe.base.services.usuario.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +24,8 @@ import java.util.UUID;
 public class PostController {
     private KafkaTemplate kafkaTemplate;
     private PostService postService;
+    private UsuarioService usuarioService;
+    private final PostConsumer postConsumer;
     private ComentarioService comentarioService;
 
     @PostMapping
@@ -86,8 +91,22 @@ public class PostController {
     @PostMapping("/{postId}/send")
     public ResponseEntity<String> sendPostToKafka(@PathVariable UUID postId) {
         PostDTO post = postService.getPostById(postId);
-        kafkaTemplate.send("post", post);
-        return new ResponseEntity<>("Post enviado para Kafka com sucesso!", HttpStatus.OK);
+        List<UsuarioDTO> seguidores = usuarioService.listarSeguidores(post.donoId());
+        seguidores.forEach(seguidor -> {
+            kafkaTemplate.send("post", seguidor.id().toString(), post);
+        });
+        return ResponseEntity.ok("Post enviado para Kafka com sucesso");
+    }
+
+    @GetMapping("/{seguidorId}")
+    public ResponseEntity<List<PostDTO>> getPosts(@PathVariable UUID seguidorId) {
+        List<PostDTO> posts = postConsumer.getPostsBySeguidorId(seguidorId);
+
+        if (posts.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(posts);
     }
 
 }
