@@ -4,11 +4,13 @@ import br.upe.base.models.Comentario;
 import br.upe.base.models.Post;
 import br.upe.base.models.Usuario;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+
 
 public record PostDTO(
         @NotNull(message = "O id do post é obrigatório")

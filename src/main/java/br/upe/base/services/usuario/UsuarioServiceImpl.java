@@ -25,7 +25,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     public UsuarioDTO salvarUsuario(UsuarioCreationDTO dto) {
 
         Usuario novoUsuario = new Usuario(
-                null,
+                dto.id(),
                 dto.nome(),
                 dto.email(),
                 dto.senha(),

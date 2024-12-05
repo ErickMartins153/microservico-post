@@ -4,6 +4,7 @@ import br.upe.base.config.PostConsumer;
 import br.upe.base.models.DTOs.ComentarioDTO;
 import br.upe.base.models.DTOs.PostCreationDTO;
 import br.upe.base.models.DTOs.PostDTO;
+import br.upe.base.models.DTOs.SeguidorPostDTO;
 import br.upe.base.models.DTOs.UsuarioDTO;
 import br.upe.base.services.comentario.ComentarioService;
 import br.upe.base.services.post.PostService;
@@ -92,20 +93,25 @@ public class PostController {
     public ResponseEntity<String> sendPostToKafka(@PathVariable UUID postId) {
         PostDTO post = postService.getPostById(postId);
         List<UsuarioDTO> seguidores = usuarioService.listarSeguidores(post.donoId());
+        System.out.println("TESTE");
         seguidores.forEach(seguidor -> {
-            kafkaTemplate.send("post", seguidor.id().toString(), post);
+            System.out.println("Enviando post para seguidor: " + seguidor.id());
+            SeguidorPostDTO seguidorPostDTO = new SeguidorPostDTO(seguidor.id(), post);
+            kafkaTemplate.send("post", seguidor.id().toString(), seguidorPostDTO);
         });
+        
         return ResponseEntity.ok("Post enviado para Kafka com sucesso");
     }
 
     @GetMapping("/seguidor/{seguidorId}")
-    public ResponseEntity<List<String>> getPosts(@PathVariable UUID seguidorId) {
-        List<String> posts = postConsumer.getPostsBySeguidorId(seguidorId);
+    public ResponseEntity<List<PostDTO>> getPosts(@PathVariable UUID seguidorId) {
+        List<PostDTO> posts = postConsumer.getPostsBySeguidorId(seguidorId);
 
         if (posts.isEmpty()) {
+            System.out.println("VAZIO");
             return ResponseEntity.noContent().build();
         }
-
+        System.out.println(posts);
         return ResponseEntity.ok(posts);
     }
 

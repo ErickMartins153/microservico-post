@@ -1,6 +1,7 @@
 package br.upe.base.config;
 
 import br.upe.base.models.DTOs.PostDTO;
+import br.upe.base.models.DTOs.SeguidorPostDTO;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;
@@ -20,24 +21,21 @@ import java.util.Map;
 public class KafkaConsumerConfig {
 
     @Bean
-    public ConsumerFactory<String, PostDTO> consumerFactory() {
-        Map<String, Object> configProps = new HashMap<>();
-        configProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        configProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+    public ConsumerFactory<? super String, ? super SeguidorPostDTO> consumerFactory() {
+    Map<String, Object> configProps = new HashMap<>();
+    configProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+    configProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+    configProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
 
-        JsonDeserializer<PostDTO> jsonDeserializer = new JsonDeserializer<>(PostDTO.class);
-        jsonDeserializer.addTrustedPackages("br.upe.base.models.DTOs");
+    JsonDeserializer<SeguidorPostDTO> jsonDeserializer = new JsonDeserializer<>(SeguidorPostDTO.class);
+    jsonDeserializer.addTrustedPackages("br.upe.base.models.DTOs");
 
-        ErrorHandlingDeserializer<PostDTO> errorHandlingDeserializer = new ErrorHandlingDeserializer<>(jsonDeserializer);
-
-        configProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, errorHandlingDeserializer.getClass());
-
-        return new DefaultKafkaConsumerFactory<>(configProps, new StringDeserializer(), errorHandlingDeserializer);
+    return new DefaultKafkaConsumerFactory<>(configProps, new StringDeserializer(), jsonDeserializer);
     }
 
     @Bean
-    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, PostDTO>> kafkaListenerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, PostDTO> factory =
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, SeguidorPostDTO>> kafkaListenerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, SeguidorPostDTO> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;
