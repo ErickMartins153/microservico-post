@@ -38,9 +38,20 @@ public class PostConsumer {
     }
 
     public List<PostDTO> getPostsBySeguidorId(UUID seguidorId) {
-        return postCache.getOrDefault(seguidorId, Collections.emptyList())
-                        .stream()
-                        .map(SeguidorPostDTO::post)
-                        .collect(Collectors.toList());
+        // Filtra todos os posts do cache que pertencem ao seguidor
+        List<SeguidorPostDTO> posts = postCache.values().stream()
+                .flatMap(List::stream)  // Flatten a lista de listas para uma lista única de SeguidorPostDTO
+                .filter(post -> post.seguidorId().equals(seguidorId))  // Filtra pelo seguidorId
+                .collect(Collectors.toList());
+
+        if (posts.isEmpty()) {
+            return Collections.emptyList(); // Retorna uma lista vazia se não houver posts
+        }
+
+        // Extrai os objetos PostDTO de cada SeguidorPostDTO
+        return posts.stream()
+                    .map(SeguidorPostDTO::post)  // Mapear cada SeguidorPostDTO para PostDTO
+                    .collect(Collectors.toList());
     }
 }
+
